@@ -15,7 +15,7 @@ const App = () => {
     // Fetch data from the backend
     const fetchSensorData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/sensors');
+        const response = await fetch("https://weather-monitoring-backend.onrender.com/sensors");
         const data = await response.json();
         setSensorData(data);
       } catch (error) {
