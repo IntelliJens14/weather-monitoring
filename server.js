@@ -4,8 +4,6 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Use Render's provided PORT or default to 3000
 
 // Middleware
-const cors = require("cors");
-
 const corsOptions = {
   origin: "https://weather-monitoring-frontend-i81c.onrender.com", // Frontend URL
   methods: ["GET", "POST"],
@@ -13,8 +11,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-
 app.use(express.json());
 
 // Mock sensor data (replace with actual sensor integration)
