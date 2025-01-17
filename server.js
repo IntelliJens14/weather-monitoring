@@ -4,7 +4,17 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Use Render's provided PORT or default to 3000
 
 // Middleware
-app.use(cors());
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "https://weather-monitoring-frontend-i81c.onrender.com", // Frontend URL
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(express.json());
 
 // Mock sensor data (replace with actual sensor integration)
@@ -32,9 +42,18 @@ setInterval(updateWeatherData, 1000);
 
 // API endpoint for fetching weather data
 app.get('/data', async (req, res) => {
-  // If you're fetching real sensor data, replace this with actual fetching logic
-  const sensorData = weatherData;  // For testing, we use mock data
-  res.json(sensorData);
+  try {
+    const sensorData = weatherData; // Replace with real sensor data if available
+    res.json(sensorData);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    res.status(500).json({ error: 'Failed to fetch weather data' });
+  }
+});
+
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({ error: 'Endpoint not found' });
 });
 
 // Start the server
